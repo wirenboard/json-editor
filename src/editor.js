@@ -211,6 +211,9 @@ export class AbstractEditor {
       if (this.parent && this.parent.schema.type === 'object' && !this.isRequired() && this.header) {
         this.header.appendChild(this.optInCheckbox)
         this.header.insertBefore(this.optInCheckbox, this.header.firstChild)
+        this.active = false
+        this.optInCheckbox.checked = false
+        this.disable()
       }
     }
   }
