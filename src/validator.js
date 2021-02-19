@@ -570,6 +570,18 @@ export class Validator {
       return this._validateV3Required(schema, value, path)
     }
 
+    try {
+      /* custom validator */
+      errors.push(...this._validateCustomValidator(schema, value, path))
+    } catch (err) {
+      errors.push({
+        path: path,
+        property: 'custom validator',
+        message: err.message
+      })
+      return errors
+    }
+
     Object.keys(schema).forEach(key => {
       if (this._validateSubSchema[key]) {
         errors.push(...this._validateSubSchema[key].call(this, schema, value, path))
@@ -599,9 +611,6 @@ export class Validator {
     if (['uuid'].includes(schema.format)) {
       errors.push(...this._validateUUIDSchema(schema, value, path))
     }
-
-    /* custom validator */
-    errors.push(...this._validateCustomValidator(schema, value, path))
 
     /* Remove duplicate errors and add "errorcount" property */
     return this._removeDuplicateErrors(errors)
@@ -811,9 +820,6 @@ export class Validator {
 
   _validateCustomValidator (schema, value, path) {
     const errors = []
-    /* Internal validators using the custom validator format */
-    errors.push(...ipValidator.call(this, schema, value, path, this.translate))
-
     const validate = validator => {
       errors.push(...validator.call(this, schema, value, path))
     }
@@ -823,6 +829,9 @@ export class Validator {
     if (this.options.custom_validators) {
       this.options.custom_validators.forEach(validate)
     }
+    /* Internal validators using the custom validator format */
+    errors.push(...ipValidator.call(this, schema, value, path, this.translate))
+
     return errors
   }
 
