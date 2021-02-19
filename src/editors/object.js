@@ -557,11 +557,16 @@ export class ObjectEditor extends AbstractEditor {
       }
       this.title = this.theme.getHeader(this.header, this.getPathDepth())
       this.title.classList.add('je-object__title')
+      if (!this.options.wb || !this.options.wb.disable_title) {
+        this.container.appendChild(this.title)
+      }
+
       this.controls = this.theme.getButtonHolder()
       this.controls.classList.add('je-object__controls')
+      if (!this.options.wb || !this.options.wb.disable_title) {
+        this.container.appendChild(this.controls)
+      }
 
-      this.container.appendChild(this.title)
-      this.container.appendChild(this.controls)
       this.container.classList.add('je-object__container')
 
       /* Edit JSON modal */
@@ -650,7 +655,11 @@ export class ObjectEditor extends AbstractEditor {
       this.container.appendChild(this.error_holder)
 
       /* Container for child editor area */
-      this.editor_holder = this.theme.getIndentedPanel()
+      if (!this.options.wb || (!this.options.wb.disable_title && !this.options.wb.disable_panel)) {
+        this.editor_holder = this.theme.getIndentedPanel()
+      } else {
+        this.editor_holder = document.createElement('div')
+      }
       this.container.appendChild(this.editor_holder)
 
       /* Container for rows of child editors */
