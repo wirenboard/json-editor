@@ -246,6 +246,9 @@ export class AbstractEditor {
         this.header.appendChild(this.optInLabel)
         this.header.appendChild(this.optInCheckbox)
         this.header.insertBefore(this.optInCheckbox, this.header.firstChild)
+        this.active = false
+        this.optInCheckbox.checked = false
+        this.disable()
       }
     }
   }
