@@ -92,13 +92,15 @@ export class ArrayEditor extends AbstractEditor {
       this.header = document.createElement('span')
       this.header.textContent = this.getTitle()
       this.title = this.theme.getHeader(this.header, this.getPathDepth())
-      this.container.appendChild(this.title)
+      this.title_controls = this.theme.getHeaderButtonHolder()
+      if (!this.options.wb || !this.options.wb.disable_title) {
+        this.container.appendChild(this.title)
+        this.title.appendChild(this.title_controls)
+      }
       if (this.options.infoText) {
         this.infoButton = this.theme.getInfoButton(this.translateProperty(this.options.infoText))
         this.container.appendChild(this.infoButton)
       }
-      this.title_controls = this.theme.getHeaderButtonHolder()
-      this.title.appendChild(this.title_controls)
       if (this.schema.description) {
         this.description = this.theme.getDescription(this.translateProperty(this.schema.description))
         this.container.appendChild(this.description)
@@ -123,7 +125,11 @@ export class ArrayEditor extends AbstractEditor {
 
         this.active_tab = null
       } else {
-        this.panel = this.theme.getIndentedPanel()
+        if (!this.options.wb || !this.options.wb.disable_panel) {
+          this.panel = this.theme.getIndentedPanel()
+        } else {
+          this.panel = document.createElement('div')
+        }
         this.container.appendChild(this.panel)
         this.row_holder = document.createElement('div')
         this.panel.appendChild(this.row_holder)
@@ -236,7 +242,11 @@ export class ArrayEditor extends AbstractEditor {
     } else if (itemInfo.child_editors) {
       holder = this.theme.getChildEditorHolder()
     } else {
-      holder = this.theme.getIndentedPanel()
+      if (!this.options.wb || !this.options.wb.disable_array_item_panel) {
+        holder = this.theme.getIndentedPanel()
+      } else {
+        holder = document.createElement('div')
+      }
     }
 
     this.row_holder.appendChild(holder)
