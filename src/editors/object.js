@@ -774,7 +774,10 @@ export class ObjectEditor extends AbstractEditor {
 
       /* Collapse button disabled */
       if (this.schema.options && typeof this.schema.options.disable_collapse !== 'undefined') {
-        if (this.schema.options.disable_collapse) this.collapse_control.style.display = 'none'
+        if (this.schema.options.disable_collapse) {
+          this.collapse_control.style.display = 'none'
+          this.title.classList.add('disable_collapse')
+        }
       } else if (this.jsoneditor.options.disable_collapse) {
         this.collapse_control.style.display = 'none'
       }
