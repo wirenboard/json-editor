@@ -88,8 +88,8 @@ export class SchemaLoader {
   }
 
   expandRefs (schema, recurseAllOf) {
+    if (!schema.$ref) return schema
     const _schema = extend({}, schema)
-    if (!_schema.$ref) return _schema
 
     const refObj = this.refs_with_info[_schema.$ref]
     delete _schema.$ref
