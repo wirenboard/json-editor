@@ -4,7 +4,8 @@ import { extend, hasOwnProperty } from './utilities.js'
 export class Validator {
   constructor (jsoneditor, schema, options, defaults) {
     this.jsoneditor = jsoneditor
-    this.schema = schema || this.jsoneditor.schema
+    /* Work on a copy of the schema */
+    this.schema = extend({}, schema || this.jsoneditor.schema)
     this.options = options || {}
     this.translate = this.jsoneditor.translate || defaults.translate
     this.translateProperty = this.jsoneditor.translateProperty || defaults.translateProperty
@@ -559,8 +560,8 @@ export class Validator {
     const errors = []
     path = path || this.jsoneditor.root.formname
 
-    /* Work on a copy of the schema */
-    schema = extend({}, this.jsoneditor.expandRefs(schema))
+    Object.assign(schema, this.jsoneditor.expandRefs(schema))
+    delete schema.$ref
 
     /*
      * Type Agnostic Validation
