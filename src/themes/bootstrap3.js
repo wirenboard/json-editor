@@ -2,6 +2,11 @@ import { AbstractTheme } from '../theme.js'
 import rules from './bootstrap3.css'
 
 export class bootstrap3Theme extends AbstractTheme {
+  constructor (jsoneditor, options) {
+    super(jsoneditor, options)
+    this.wm = new WeakMap()
+  }
+
   getSelectInput (options, multiple) {
     const el = super.getSelectInput(options)
     el.classList.add('form-control')
@@ -22,9 +27,9 @@ export class bootstrap3Theme extends AbstractTheme {
     if (this.closest(input, '.compact')) {
       input.controlgroup.style.marginBottom = 0
     }
-    if (this.queuedInputErrorText) {
-      const text = this.queuedInputErrorText
-      delete this.queuedInputErrorText
+    if (this.wm.has(input)) {
+      const text = this.wm.get(input)
+      this.wm.delete(input)
       this.addInputError(input, text)
     }
 
@@ -145,7 +150,7 @@ export class bootstrap3Theme extends AbstractTheme {
 
   addInputError (input, text) {
     if (!input.controlgroup) {
-      this.queuedInputErrorText = text
+      this.wm.set(input, text)
       return
     }
     input.controlgroup.classList.add('has-error')
@@ -162,7 +167,7 @@ export class bootstrap3Theme extends AbstractTheme {
 
   removeInputError (input) {
     if (!input.controlgroup) {
-      delete this.queuedInputErrorText
+      this.wm.delete(input)
     }
     if (!input.errmsg) return
     input.errmsg.style.display = 'none'
