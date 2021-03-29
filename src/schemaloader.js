@@ -147,6 +147,7 @@ export class SchemaLoader {
    * @returns {object} A JSON Schema with references expanded.
    */
   expandRefs (schema, recurseAllOf) {
+    if (!schema.$ref) return schema
     const _schema = extend({}, schema)
 
     if (!_schema.$ref) return _schema
