@@ -55,7 +55,7 @@ export class SelectEditor extends AbstractEditor {
     for (let i = 0; i < this.enum_options.length; i++) {
       longestText = Math.max(longestText, this.enum_options[i].length + 4)
     }
-    return Math.min(12, Math.max(longestText / 7, 2))
+    return Math.min(12, Math.max(Math.ceil(longestText / 7), 2))
   }
 
   typecast (value) {
