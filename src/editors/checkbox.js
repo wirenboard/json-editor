@@ -22,7 +22,7 @@ export class CheckboxEditor extends AbstractEditor {
   }
 
   getNumColumns () {
-    return Math.min(12, Math.max(this.getTitle().length / 7, 2))
+    return Math.min(12, Math.max(Math.ceil(this.getTitle().length / 7), 2))
   }
 
   build () {

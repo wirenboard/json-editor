@@ -22,7 +22,7 @@ export class MultiSelectEditor extends AbstractEditor {
     let longestText = this.getTitle().length
     Object.keys(this.select_values).forEach(i => (longestText = Math.max(longestText, (`${this.select_values[i]}`).length + 4)))
 
-    return Math.min(12, Math.max(longestText / 7, 2))
+    return Math.min(12, Math.max(Math.ceil(longestText / 7), 2))
   }
 
   preBuild () {
