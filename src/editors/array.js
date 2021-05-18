@@ -143,13 +143,10 @@ export class ArrayEditor extends AbstractEditor {
     } else {
       /* compact mode */
       this.title = this.theme.getHeader('', this.getPathDepth())
-      this.container.appendChild(this.title)
-      this.panel = this.theme.getIndentedPanel()
+      this.panel = document.createElement('div')
       this.container.appendChild(this.panel)
       this.title_controls = this.theme.getHeaderButtonHolder()
-      this.title.appendChild(this.title_controls)
       this.controls = this.theme.getHeaderButtonHolder()
-      this.title.appendChild(this.controls)
       this.row_holder = document.createElement('div')
       this.panel.appendChild(this.row_holder)
     }
