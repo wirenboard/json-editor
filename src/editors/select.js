@@ -49,10 +49,10 @@ export class SelectEditor extends AbstractEditor {
   }
 
   typecast (value) {
-    if (this.schema.type === 'boolean') return value === 'undefined' || value === undefined ? undefined : !!value
+    if (this.schema.enum && value === undefined) return undefined
+    else if (this.schema.type === 'boolean') return value === 'undefined' || value === undefined ? undefined : !!value
     else if (this.schema.type === 'number') return 1 * value || 0
     else if (this.schema.type === 'integer') return Math.floor(value * 1 || 0)
-    else if (this.schema.enum && value === undefined) return undefined
     return `${value}`
   }
 
@@ -81,7 +81,7 @@ export class SelectEditor extends AbstractEditor {
         this.enum_values[i] = this.typecast(option)
       })
 
-      if (!this.isRequired()) {
+      if (!this.isRequired() && !(this.schema.options && this.schema.options.show_opt_in)) {
         this.enum_display.unshift(' ')
         this.enum_options.unshift('undefined')
         this.enum_values.unshift(undefined)
