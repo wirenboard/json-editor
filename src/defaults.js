@@ -301,7 +301,10 @@ languages.en = {
   /**
   * Text on Object Properties buttons
   */
-  button_properties: 'Properties',
+  edit_properties: 'Properties',
+  property_name_placeholder: 'Property name...',
+  properties: 'properties',
+  duplicate_property_error: 'There is already a property with that name',
   /**
   * Title on Object Properties buttons
   */
