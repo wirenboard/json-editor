@@ -607,14 +607,14 @@ export class ObjectEditor extends AbstractEditor {
       this.addproperty_add.classList.add('json-editor-btntype-add')
 
       this.addproperty_input = this.theme.getFormInputField('text')
-      this.addproperty_input.setAttribute('placeholder', 'Property name...')
+      this.addproperty_input.setAttribute('placeholder', this.translate('property_name_placeholder'))
       this.addproperty_input.classList.add('property-selector-input')
       this.addproperty_add.addEventListener('click', (e) => {
         e.preventDefault()
         e.stopPropagation()
         if (this.addproperty_input.value) {
           if (this.editors[this.addproperty_input.value]) {
-            window.alert('there is already a property with that name')
+            window.alert(this.translate('duplicate_property_error'))
             return
           }
 
