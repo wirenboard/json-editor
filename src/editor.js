@@ -323,7 +323,7 @@ export class AbstractEditor {
 
     /* Dynamic header */
     if (this.schema.headerTemplate) {
-      this.header_template = this.jsoneditor.compileTemplate(this.schema.headerTemplate, this.template_engine)
+      this.header_template = this.jsoneditor.compileTemplate(this.translateProperty(this.schema.headerTemplate), this.template_engine)
     }
   }
 
