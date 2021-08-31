@@ -757,6 +757,7 @@ export class AbstractEditor {
       Object.keys(inputAttributes).forEach(key => {
         if (!protectedAttributes.includes(key.toLowerCase())) {
           workingInput.setAttribute(key, inputAttributes[key])
+          workingInput.setAttribute(key, key === 'placeholder' ? this.translateProperty(inputAttributes[key]) : inputAttributes[key])
         }
       })
     }
