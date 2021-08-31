@@ -242,7 +242,7 @@ export class Validator {
           return [{
             path,
             property: 'pattern',
-            message: (schema.options && schema.options.patternmessage) ? schema.options.patternmessage : this.translate('error_pattern', [schema.pattern])
+            message: (schema.options && schema.options.patternmessage) ? this.translateProperty(schema.options.patternmessage) : this.translate('error_pattern', [schema.pattern])
           }]
         }
         return []
