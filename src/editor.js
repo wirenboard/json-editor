@@ -691,8 +691,9 @@ export class AbstractEditor {
     /* This helps us pick the most distinct display text for the schemas. */
     arr.forEach(el => {
       if (el.title) {
-        used[el.title] = used[el.title] || 0
-        used[el.title]++
+        const title = this.translateProperty(el.title)
+        used[title] = used[title] || 0
+        used[title]++
       }
       if (el.description) {
         used[el.description] = used[el.description] || 0
@@ -711,15 +712,16 @@ export class AbstractEditor {
     /* Determine display text for each element of the array */
     arr.forEach(el => {
       let name
+      const title = this.translateProperty(el.title)
 
       /* If it's a simple string */
       if (typeof el === 'string') name = el
       /* Object */
-      else if (el.title && used[el.title] <= 1) name = el.title
+      else if (el.title && used[title] <= 1) name = title
       else if (el.format && used[el.format] <= 1) name = el.format
       else if (el.type && used[el.type] <= 1) name = el.type
       else if (el.description && used[el.description] <= 1) name = el.description
-      else if (el.title) name = el.title
+      else if (el.title) name = title
       else if (el.format) name = el.format
       else if (el.type) name = el.type
       else if (el.description) name = el.description
