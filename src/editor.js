@@ -681,7 +681,7 @@ export class AbstractEditor {
       const protectedAttributes = ['name', 'type'].concat(inputAttribute)
       Object.keys(inputAttributes).forEach(key => {
         if (!protectedAttributes.includes(key.toLowerCase())) {
-          this.input.setAttribute(key, inputAttributes[key])
+          this.input.setAttribute(key, key === 'placeholder' ? this.translateProperty(inputAttributes[key]) : inputAttributes[key])
         }
       })
     }
