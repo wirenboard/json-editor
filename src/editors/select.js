@@ -302,6 +302,8 @@ export class SelectEditor extends AbstractEditor {
         }
       }
 
+      selectTitles = selectTitles.map(title => this.translateProperty(title))
+
       const prevValue = this.value
 
       this.theme.setSelectOptions(this.input, selectOptions, selectTitles)
