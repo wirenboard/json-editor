@@ -1223,7 +1223,9 @@ export class ObjectEditor extends AbstractEditor {
         if (this.jsoneditor.options.show_opt_in || editor.options.show_opt_in) {
           editor.deactivate()
         } else {
-          this.removeObjectProperty(i)
+          if (!(editor.options.wb && editor.options.wb.show_editor)) {
+            this.removeObjectProperty(i)
+          }
         }
         /* Otherwise, set the value to the default */
       } else {
