@@ -80,7 +80,6 @@ export class bootstrap3Theme extends AbstractTheme {
   getIndentedPanel () {
     const el = document.createElement('div')
     el.classList.add('well', 'well-sm')
-    el.style.paddingBottom = 0
     return el
   }
 
