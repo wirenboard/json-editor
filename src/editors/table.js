@@ -27,7 +27,7 @@ export class TableEditor extends ArrayEditor {
   preBuild () {
     const itemSchema = this.jsoneditor.expandRefs(this.schema.items || {})
 
-    this.item_title = itemSchema.title || 'row'
+    this.item_title = this.translateProperty(itemSchema.title) || 'row'
     this.item_default = itemSchema.default || null
     this.item_has_child_editors = itemSchema.properties || itemSchema.items
     this.width = 12
