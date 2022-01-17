@@ -193,22 +193,26 @@ export class ArrayEditor extends AbstractEditor {
         return extend({}, this.schema.items[i])
       }
     } else if (this.schema.items) {
-      return extend({}, this.schema.items)
+      if (!this.cachedItems) {
+        var items = extend({}, this.schema.items)
+        this.cachedItems = this.jsoneditor.expandRefs(items)
+        this.singleItemSchema = true
+      }
+      return extend({}, this.cachedItems)
     } else {
       return {}
     }
   }
 
-  getItemInfo (i) {
-    let schema = this.getItemSchema(i)
+  getItemInfo (i, schema) {
+    if (!schema) {
+      schema = this.getItemSchema(i)
+    }
 
     /* Check if it's cached */
     this.item_info = this.item_info || {}
     const stringified = JSON.stringify(schema)
     if (typeof this.item_info[stringified] !== 'undefined') return this.item_info[stringified]
-
-    /* Get the schema for this item */
-    schema = this.jsoneditor.expandRefs(schema)
 
     this.item_info[stringified] = {
       title: this.translateProperty(schema.title) || this.translate('default_array_item_title'),
@@ -221,12 +225,19 @@ export class ArrayEditor extends AbstractEditor {
   }
 
   getElementEditor (i) {
-    const itemInfo = this.getItemInfo(i)
-    let schema = this.getItemSchema(i)
-    schema = this.jsoneditor.expandRefs(schema)
+    const schema = this.getItemSchema(i)
+    const itemInfo = this.getItemInfo(i, schema)
     schema.title = `${itemInfo.title} ${i + 1}`
 
-    const editor = this.jsoneditor.getEditorClass(schema)
+    var editor
+    if (this.singleItemSchema) {
+      if (!this.cachedEditorClass) {
+        this.cachedEditorClass = this.jsoneditor.getEditorClass(schema)
+      }
+      editor = this.cachedEditorClass
+    } else {
+      editor = this.jsoneditor.getEditorClass(schema)
+    }
 
     let holder
     if (this.tabs_holder) {
