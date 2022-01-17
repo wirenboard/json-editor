@@ -68,7 +68,11 @@ export class TableEditor extends ArrayEditor {
         this.description = this.theme.getDescription(this.translateProperty(this.schema.description))
         this.container.appendChild(this.description)
       }
-      this.panel = this.theme.getIndentedPanel()
+      if (!this.options.wb || !this.options.wb.disable_panel) {
+        this.panel = this.theme.getIndentedPanel()
+      } else {
+        this.panel = document.createElement('div')
+      }
       this.container.appendChild(this.panel)
       this.error_holder = document.createElement('div')
       this.panel.appendChild(this.error_holder)
