@@ -43,7 +43,7 @@ export class MultiSelectEditor extends AbstractEditor {
       if (this.sanitize(e[i]) !== e[i]) continue
 
       this.option_keys.push(`${e[i]}`)
-      this.option_titles.push(`${t[i] || e[i]}`)
+      this.option_titles.push(`${this.translateProperty(t[i]) || e[i]}`)
       this.select_values[`${e[i]}`] = e[i]
     }
   }
