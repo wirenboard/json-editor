@@ -33,6 +33,8 @@ export class AbstractTheme {
     const el = document.createElement('div')
     el.style.display = 'none'
     el.classList.add('je-modal')
+    el.setAttribute('role', 'dialog')
+    el.setAttribute('aria-modal', true)
     return el
   }
 
@@ -389,6 +391,9 @@ export class AbstractTheme {
     const el = document.createElement('button')
     el.type = 'button'
     this.setButtonText(el, text, icon, title)
+    if (title) {
+      el.setAttribute('aria-label', title)
+    }
     return el
   }
 

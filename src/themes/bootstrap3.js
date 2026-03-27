@@ -1,4 +1,5 @@
 import { AbstractTheme } from '../theme.js'
+import { generateUUID } from '../utilities'
 import rules from './bootstrap3.css'
 
 export class bootstrap3Theme extends AbstractTheme {
@@ -57,6 +58,7 @@ export class bootstrap3Theme extends AbstractTheme {
 
   getFormControl (label, input, description, infoText) {
     const group = document.createElement('div')
+    input.setAttribute('id', generateUUID())
 
     if (label && (input.type === 'checkbox' || input.type === 'radio')) {
       group.classList.add(input.type)
@@ -70,6 +72,9 @@ export class bootstrap3Theme extends AbstractTheme {
         if (infoText) label.appendChild(infoText)
       }
       group.appendChild(input)
+    }
+    if (label) {
+      label.setAttribute('for', input.id)
     }
 
     if (description) group.appendChild(description)
@@ -117,6 +122,7 @@ export class bootstrap3Theme extends AbstractTheme {
   getFormInputDescription (text) {
     const el = document.createElement('p')
     el.classList.add('help-block')
+    el.setAttribute('id', generateUUID())
     if (window.DOMPurify) el.innerHTML = window.DOMPurify.sanitize(text)
     else el.textContent = this.cleanText(text)
     return el

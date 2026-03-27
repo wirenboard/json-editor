@@ -1,5 +1,5 @@
 import { AbstractEditor } from '../editor.js'
-import { extend, trigger } from '../utilities.js'
+import { extend, generateUUID, trigger } from '../utilities.js'
 import rules from './array.css.js'
 
 export class ArrayEditor extends AbstractEditor {
@@ -94,6 +94,7 @@ export class ArrayEditor extends AbstractEditor {
   build () {
     if (!this.options.compact) {
       this.header = document.createElement('label')
+      this.header.setAttribute('id', generateUUID())
       this.header.textContent = this.getTitle()
       this.title = this.theme.getHeader(this.header, this.getPathDepth())
       this.title_controls = this.theme.getHeaderButtonHolder()
@@ -678,8 +679,11 @@ export class ArrayEditor extends AbstractEditor {
   _createToggleButton () {
     const button = this.getButton('', 'collapse', 'button_collapse')
     button.classList.add('json-editor-btntype-toggle')
+    button.setAttribute('aria-expanded', false)
     this.title.insertBefore(button, this.title.childNodes[0])
-
+    if (this.header.id) {
+      button.setAttribute('aria-labelledby', this.header.id)
+    }
     const rowHolderDisplay = this.row_holder.style.display
     const controlsDisplay = this.controls.style.display
     button.addEventListener('click', e => {
@@ -691,11 +695,13 @@ export class ArrayEditor extends AbstractEditor {
         this.collapsed = false
         this.row_holder.style.display = rowHolderDisplay
         this.controls.style.display = controlsDisplay
+        button.setAttribute('aria-expanded', true)
         this.setButtonText(e.currentTarget, '', 'collapse', 'button_collapse')
       } else {
         this.collapsed = true
         this.row_holder.style.display = 'none'
         this.controls.style.display = 'none'
+        button.setAttribute('aria-expanded', false)
         this.setButtonText(e.currentTarget, '', 'expand', 'button_expand')
       }
     })
