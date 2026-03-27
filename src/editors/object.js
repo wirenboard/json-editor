@@ -1,5 +1,5 @@
 import { AbstractEditor } from '../editor.js'
-import { extend, hasOwnProperty, trigger } from '../utilities.js'
+import { extend, generateUUID, hasOwnProperty, trigger } from '../utilities.js'
 import rules from './object.css.js'
 
 export class ObjectEditor extends AbstractEditor {
@@ -553,6 +553,7 @@ export class ObjectEditor extends AbstractEditor {
       this.header = ''
       if (!this.options.compact) {
         this.header = document.createElement('label')
+        this.header.setAttribute('id', generateUUID())
         this.header.textContent = this.getTitle()
       }
       this.title = this.theme.getHeader(this.header, this.getPathDepth())
@@ -571,6 +572,7 @@ export class ObjectEditor extends AbstractEditor {
 
       /* Edit JSON modal */
       this.editjson_holder = this.theme.getModal()
+      this.editjson_holder.setAttribute('id', generateUUID())
       this.editjson_textarea = this.theme.getTextareaInput()
       this.editjson_textarea.classList.add('je-edit-json--textarea')
       this.editjson_save = this.getButton('button_save', 'save', 'button_save')
@@ -601,6 +603,7 @@ export class ObjectEditor extends AbstractEditor {
 
       /* Manage Properties modal */
       this.addproperty_holder = this.theme.getModal()
+      this.addproperty_holder.setAttribute('id', generateUUID())
       this.addproperty_list = document.createElement('div')
       this.addproperty_list.classList.add('property-selector')
       this.addproperty_add = this.getButton('button_add', 'add', 'button_add')
@@ -722,6 +725,10 @@ export class ObjectEditor extends AbstractEditor {
       this.collapsed = false
       this.collapse_control = this.getButton('', 'collapse', 'button_collapse')
       this.collapse_control.classList.add('json-editor-btntype-toggle')
+      this.collapse_control.setAttribute('aria-expanded', false)
+      if (this.header.id) {
+        this.collapse_control.setAttribute('aria-labelledby', this.header.id)
+      }
       this.title.insertBefore(this.collapse_control, this.title.childNodes[0])
 
       this.collapse_control.addEventListener('click', (e) => {
@@ -730,10 +737,12 @@ export class ObjectEditor extends AbstractEditor {
         if (this.collapsed) {
           this.editor_holder.style.display = ''
           this.collapsed = false
+          this.collapse_control.setAttribute('aria-expanded', true)
           this.setButtonText(this.collapse_control, '', 'collapse', 'button_collapse')
         } else {
           this.editor_holder.style.display = 'none'
           this.collapsed = true
+          this.collapse_control.setAttribute('aria-expanded', false)
           this.setButtonText(this.collapse_control, '', 'expand', 'button_expand')
         }
       })
@@ -756,6 +765,9 @@ export class ObjectEditor extends AbstractEditor {
       /* Edit JSON Button */
       this.editjson_control = this.getButton('JSON', 'edit', 'button_edit_json')
       this.editjson_control.classList.add('json-editor-btntype-editjson')
+      this.editjson_control.setAttribute('aria-haspopup', true)
+      this.editjson_control.setAttribute('aria-expanded', false)
+      this.editjson_control.setAttribute('aria-controls', this.editjson_holder.id)
       this.editjson_control.addEventListener('click', (e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -774,6 +786,9 @@ export class ObjectEditor extends AbstractEditor {
       /* Object Properties Button */
       this.addproperty_button = this.getButton('properties', 'edit_properties', 'button_object_properties')
       this.addproperty_button.classList.add('json-editor-btntype-properties')
+      this.addproperty_button.setAttribute('aria-haspopup', true)
+      this.addproperty_button.setAttribute('aria-expanded', false)
+      this.addproperty_button.setAttribute('aria-controls', this.addproperty_holder.id)
       this.addproperty_button.addEventListener('click', (e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -831,13 +846,17 @@ export class ObjectEditor extends AbstractEditor {
 
     this.editjson_holder.style.display = ''
     this.editjson_control.disabled = false
+    this.editjson_control.setAttribute('aria-expanded', true)
     this.editing_json = true
+    this.editjson_holder.tabIndex = -1
+    this.editjson_holder.focus()
   }
 
   hideEditJSON () {
     if (!this.editjson_holder) return
     if (!this.editing_json) return
 
+    this.editjson_control.setAttribute('aria-expanded', false)
     this.editjson_holder.style.display = 'none'
     this.enable()
     this.editing_json = false
@@ -943,7 +962,10 @@ export class ObjectEditor extends AbstractEditor {
 
     this.adding_property = true
     this.addproperty_button.disabled = false
+    this.addproperty_button.setAttribute('aria-expanded', true)
     this.addproperty_holder.style.display = ''
+    this.addproperty_holder.tabIndex = -1
+    this.addproperty_holder.focus()
     this.refreshAddProperties()
   }
 
@@ -952,6 +974,7 @@ export class ObjectEditor extends AbstractEditor {
     if (!this.adding_property) return
 
     this.addproperty_holder.style.display = 'none'
+    this.addproperty_button.setAttribute('aria-expanded', false)
     this.enable()
 
     this.adding_property = false

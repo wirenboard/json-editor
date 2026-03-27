@@ -117,6 +117,10 @@ export class StringEditor extends AbstractEditor {
       this.input = this.theme.getFormInputField(this.input_type)
     }
 
+    if (this.input && this.description) {
+      this.input.setAttribute('aria-describedby', this.description.id)
+    }
+
     /* minLength, maxLength, and pattern */
     if (typeof this.schema.maxLength !== 'undefined') this.input.setAttribute('maxlength', this.schema.maxLength)
     if (typeof this.schema.pattern !== 'undefined') this.input.setAttribute('pattern', this.schema.pattern)
