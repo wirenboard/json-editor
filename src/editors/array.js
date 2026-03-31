@@ -524,7 +524,7 @@ export class ArrayEditor extends AbstractEditor {
   }
 
   _createDeleteButton (i, holder) {
-    const button = this.getButton(this.getItemTitle(), 'delete', 'button_delete_row_title', [this.getItemTitle()])
+    const button = this.getButton('button_delete_row_title_short', 'delete', 'button_delete_row_title', [this.getItemTitle()])
     button.classList.add('delete', 'json-editor-btntype-delete')
     button.setAttribute('data-i', i)
     button.addEventListener('click', e => {
@@ -565,7 +565,7 @@ export class ArrayEditor extends AbstractEditor {
   }
 
   _createCopyButton (i, holder) {
-    const button = this.getButton(this.getItemTitle(), 'copy', 'button_copy_row_title', [this.getItemTitle()])
+    const button = this.getButton('button_copy_row_title_short', 'copy', 'button_copy_row_title', [this.getItemTitle()])
     button.classList.add('copy', 'json-editor-btntype-copy')
     button.setAttribute('data-i', i)
     button.addEventListener('click', e => {
