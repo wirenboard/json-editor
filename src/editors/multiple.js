@@ -1,7 +1,7 @@
 /* Multiple Editor (for when `type` is an array, also when `oneOf` is present) */
 import { AbstractEditor } from '../editor.js'
 import { Validator } from '../validator.js'
-import { extend, mergeDeep, overwriteExistingProperties } from '../utilities.js'
+import { extend, generateUUID, mergeDeep, overwriteExistingProperties } from '../utilities.js'
 
 export class MultipleEditor extends AbstractEditor {
   register () {
@@ -210,6 +210,11 @@ export class MultipleEditor extends AbstractEditor {
     const { container } = this
     this.header = this.label = this.theme.getFormInputLabel(this.getTitle(), this.isRequired())
     this.switcher = this.theme.getSwitcher(this.display_text)
+    this.switcher.setAttribute('id', generateUUID())
+
+    if (this.label) {
+      this.label.setAttribute('for', this.switcher.id)
+    }
 
     if (!this.if) {
       this.container.appendChild(this.header)
