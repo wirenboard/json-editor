@@ -581,6 +581,7 @@ export class ObjectEditor extends AbstractEditor {
         e.preventDefault()
         e.stopPropagation()
         this.saveJSON()
+        this.editjson_control.focus()
       })
       this.editjson_copy = this.getButton('button_copy', 'copy', 'button_copy')
       this.editjson_copy.classList.add('json-editor-btntype-copy')
@@ -595,6 +596,7 @@ export class ObjectEditor extends AbstractEditor {
         e.preventDefault()
         e.stopPropagation()
         this.hideEditJSON()
+        this.editjson_control.focus()
       })
       this.editjson_holder.appendChild(this.editjson_textarea)
       this.editjson_holder.appendChild(this.editjson_save)
@@ -772,9 +774,10 @@ export class ObjectEditor extends AbstractEditor {
         e.preventDefault()
         e.stopPropagation()
         this.toggleEditJSON()
+        this.editjson_control.focus()
       })
-      this.controls.appendChild(this.editjson_control)
-      this.controls.insertBefore(this.editjson_holder, this.controls.childNodes[0])
+      this.controls.appendChild(this.editjson_holder)
+      this.controls.insertBefore(this.editjson_control, this.editjson_holder)
 
       /* Edit JSON Buttton disabled */
       if (this.schema.options && typeof this.schema.options.disable_edit_json !== 'undefined') {
@@ -793,9 +796,10 @@ export class ObjectEditor extends AbstractEditor {
         e.preventDefault()
         e.stopPropagation()
         this.toggleAddProperty()
+        this.addproperty_button.focus()
       })
-      this.controls.appendChild(this.addproperty_button)
-      this.controls.insertBefore(this.addproperty_holder, this.controls.childNodes[1])
+      this.controls.appendChild(this.addproperty_holder)
+      this.controls.insertBefore(this.addproperty_button, this.addproperty_holder)
 
       this.refreshAddProperties()
 
@@ -849,7 +853,6 @@ export class ObjectEditor extends AbstractEditor {
     this.editjson_control.setAttribute('aria-expanded', true)
     this.editing_json = true
     this.editjson_holder.tabIndex = -1
-    this.editjson_holder.focus()
   }
 
   hideEditJSON () {
@@ -965,7 +968,6 @@ export class ObjectEditor extends AbstractEditor {
     this.addproperty_button.setAttribute('aria-expanded', true)
     this.addproperty_holder.style.display = ''
     this.addproperty_holder.tabIndex = -1
-    this.addproperty_holder.focus()
     this.refreshAddProperties()
   }
 

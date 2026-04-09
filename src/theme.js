@@ -34,7 +34,6 @@ export class AbstractTheme {
     el.style.display = 'none'
     el.classList.add('je-modal')
     el.setAttribute('role', 'dialog')
-    el.setAttribute('aria-modal', true)
     return el
   }
 
