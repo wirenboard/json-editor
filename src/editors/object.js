@@ -573,6 +573,10 @@ export class ObjectEditor extends AbstractEditor {
       /* Edit JSON modal */
       this.editjson_holder = this.theme.getModal()
       this.editjson_holder.setAttribute('id', generateUUID())
+      this.editjson_holder.closeCallback = () => {
+        this.hideEditJSON()
+        this.editjson_control.focus()
+      }
       this.editjson_textarea = this.theme.getTextareaInput()
       this.editjson_textarea.classList.add('je-edit-json--textarea')
       this.editjson_save = this.getButton('button_save', 'save', 'button_save')
@@ -606,6 +610,10 @@ export class ObjectEditor extends AbstractEditor {
       /* Manage Properties modal */
       this.addproperty_holder = this.theme.getModal()
       this.addproperty_holder.setAttribute('id', generateUUID())
+      this.addproperty_holder.closeCallback = () => {
+        this.hideAddProperty()
+        this.addproperty_button.focus()
+      }
       this.addproperty_list = document.createElement('div')
       this.addproperty_list.classList.add('property-selector')
       this.addproperty_add = this.getButton('button_add', 'add', 'button_add')
@@ -774,7 +782,11 @@ export class ObjectEditor extends AbstractEditor {
         e.preventDefault()
         e.stopPropagation()
         this.toggleEditJSON()
-        this.editjson_control.focus()
+        if (this.editjson_holder.querySelector('textarea')) {
+          this.editjson_holder.querySelector('textarea').focus()
+        } else {
+          this.editjson_holder.focus()
+        }
       })
       this.controls.appendChild(this.editjson_holder)
       this.controls.insertBefore(this.editjson_control, this.editjson_holder)
@@ -796,7 +808,11 @@ export class ObjectEditor extends AbstractEditor {
         e.preventDefault()
         e.stopPropagation()
         this.toggleAddProperty()
-        this.addproperty_button.focus()
+        if (this.addproperty_holder.querySelector('input:not([disabled])')) {
+          this.addproperty_holder.querySelector('input:not([disabled])').focus()
+        } else {
+          this.addproperty_holder.focus()
+        }
       })
       this.controls.appendChild(this.addproperty_holder)
       this.controls.insertBefore(this.addproperty_button, this.addproperty_holder)
@@ -853,6 +869,7 @@ export class ObjectEditor extends AbstractEditor {
     this.editjson_control.setAttribute('aria-expanded', true)
     this.editing_json = true
     this.editjson_holder.tabIndex = -1
+    this.editjson_control.focus()
   }
 
   hideEditJSON () {
@@ -968,6 +985,7 @@ export class ObjectEditor extends AbstractEditor {
     this.addproperty_button.setAttribute('aria-expanded', true)
     this.addproperty_holder.style.display = ''
     this.addproperty_holder.tabIndex = -1
+    this.addproperty_holder.focus()
     this.refreshAddProperties()
   }
 

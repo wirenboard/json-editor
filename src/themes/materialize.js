@@ -404,6 +404,15 @@ export class materializeTheme extends AbstractTheme {
     el.style.position = 'absolute'
     el.style.zIndex = '10'
     el.style.display = 'none'
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (el.closeCallback) {
+          el.closeCallback()
+        } else {
+          el.style.display = 'none'
+        }
+      }
+    })
     return el
   }
 

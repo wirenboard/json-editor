@@ -34,6 +34,15 @@ export class AbstractTheme {
     el.style.display = 'none'
     el.classList.add('je-modal')
     el.setAttribute('role', 'dialog')
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (el.closeCallback) {
+          el.closeCallback()
+        } else {
+          el.style.display = 'none'
+        }
+      }
+    })
     return el
   }
 
