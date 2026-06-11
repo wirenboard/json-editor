@@ -562,7 +562,7 @@ export class AbstractEditor {
 
   getDefault () {
     if (typeof this.schema.default !== 'undefined') {
-      return typeof this.schema.default === 'string' ? this.translateProperty(this.schema.default) : this.schema.default
+      return typeof this.schema.default === 'string' && !this.schema.enum ? this.translateProperty(this.schema.default) : this.schema.default
     }
 
     if (typeof this.schema.enum !== 'undefined') {
