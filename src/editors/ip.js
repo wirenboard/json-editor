@@ -2,6 +2,20 @@ import { StringEditor } from './string.js'
 import { extend } from '../utilities.js'
 
 export class IpEditor extends StringEditor {
+  build () {
+    super.build()
+
+    if (this.format !== 'ipv6') {
+      this.input.addEventListener('input', e => {
+        const el = e.target
+        if (!el.value.includes(',')) return
+        const pos = el.selectionStart
+        el.value = el.value.replace(/,/g, '.')
+        if (pos !== null) el.setSelectionRange(pos, pos)
+      })
+    }
+  }
+
   preBuild () {
     super.preBuild()
 
